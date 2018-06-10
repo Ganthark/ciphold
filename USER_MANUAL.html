@@ -283,10 +283,16 @@ User Manual</div></h1>
 <li>Run the following commands in R/RStudio:</li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;shiny&quot;</span>)
-<span class="kw">runApp</span>(<span class="st">&quot;App&quot;</span>)</code></pre></div>
+<span class="kw">runApp</span>(<span class="st">&quot;App/&quot;</span>)</code></pre></div>
 <ol start="3" style="list-style-type: decimal">
 <li>The application should be running, if not, do all the steps from the “Setting up your environment” section in the good order. If it does not resolves the issue, please go to the “Known Issues” section.</li>
 </ol>
+<div id="notes" class="section level3">
+<h3>Notes:</h3>
+<blockquote>
+<p>You could also use <strong>shiny::RunApp(“App/”)</strong>.</p>
+</blockquote>
+</div>
 </div>
 </div>
 <div id="usage" class="section level1">
@@ -295,7 +301,7 @@ User Manual</div></h1>
 <div id="run-clustering" class="section level2">
 <h2>Run clustering</h2>
 <p>This is usually the first step of an analysis. You can add FCS files with the “Choose FCS files” Browse button. This will open a window in which you can select multiple files. They will be added to your selection, you can browse again multiple times to add other files for the clustering. Then choose a file to load markers and choose them in the corresponding fields. Then you should add clustering groups for your clustering. Usually you only need to click on “Add all files into groups”, but if various files correspond to the same experiment, they can be added in the same group to be clustered as one file. In this case add these files together by selecting them in the field (with the Ctrl button to add to the selection) and clicking on “Add clustering group”. Then you can adjust multiple options for the clustering and choose the type of transformation you want. Lastly, with the “Saving Folder” you choose where the generated clustered files should be saved. By clicking “Start clustering” the processing will begin if all fields requirements are meet.</p>
-<div id="notes" class="section level3">
+<div id="notes-1" class="section level3">
 <h3>Notes:</h3>
 <blockquote>
 <ul>
@@ -315,7 +321,7 @@ User Manual</div></h1>
 <div id="run-scaffold-analysis" class="section level2">
 <h2>Run SCAFFoLD analysis</h2>
 <p>In this tab you can add your previously generated pairs of files. If you select a file alone it will not be added to your selection. You can browse files many times like in the clustering step. The analysis is set to be only with Gated files so you need to add them. You can then select a gated file as reference to load markers and choose them in the corresponding fields. As before you can set up options and use a transformation on your gated files. It is highly recommended to check “Add inter-cluster connections”. Once everything is set up you can click on “Start Analysis”.</p>
-<div id="notes-1" class="section level3">
+<div id="notes-2" class="section level3">
 <h3>Notes:</h3>
 <blockquote>
 <ul>
@@ -369,15 +375,15 @@ The purpose of this tab is to map clustered data onto an existing reference map,
 <h1>Troubleshooting</h1>
 <div id="known-issues" class="section level2">
 <h2>Known Issues</h2>
-<table>
+<table style="width:67%;">
 <colgroup>
 <col width="33%"></col>
 <col width="33%"></col>
 </colgroup>
 <thead>
 <tr class="header">
-<th style="border: 1px solid black;">Issue</th>
-<th style="border: 1px solid black;">Solution</th>
+<th>Issue</th>
+<th>Solution</th>
 </tr>
 </thead>
 <tbody>
@@ -403,7 +409,7 @@ The purpose of this tab is to map clustered data onto an existing reference map,
 </div>
 <div id="contact" class="section level1">
 <h1>Contact</h1>
-<p>You can contact <b><em>Calvin Matteoli</em></b> the developer via e-mail at <a href="mailto:calvin.matteoli@gmail.com">calvin.matteoli@gmail.com</a>, stating “<b>[CIPHOLD]</b>” in the subject of your message.</p>
+<p>You can contact <em>Calvin Matteoli</em> the developer via e-mail at <a href="mailto:calvin.matteoli@gmail.com">calvin.matteoli@gmail.com</a>, stating “<strong>[CIPHOLD]</strong>” in the subject of your message.</p>
 </div>
 
 

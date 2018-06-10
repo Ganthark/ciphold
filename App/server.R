@@ -17,7 +17,7 @@ library(jsonlite)
 library(colourpicker)
 
 options(expressions = 5e5,
-        shiny.maxRequestSize = 10 * 1024 ^ 3) #increase max file upload size to 10 Gb
+        shiny.maxRequestSize = 20 * 1024 ^ 3) #increase max file upload size to 20 Gb
 
 source("functions.R")
 sourceCpp("forceatlas2.cpp")

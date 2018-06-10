@@ -2,3 +2,6 @@
 .Rhistory
 .RData
 .Ruserdata
+MAINTENANCE_MANUAL.Rmd
+theme.css
+USER_MANUAL.Rmd
