@@ -1,0 +1,61 @@
+svg#main_graph {
+	border: 5px solid #b1b1b1;
+}
+
+div#align_button div#flow_frames,
+div#align_button div#gatedFiles {
+	height:auto;
+    float:left;
+    width: 92%;
+}
+
+div#align_button div#flow_frames table,
+div#align_button div#gatedFiles table {
+	width: 100%
+}
+
+div#align_button div#flow_frames table tbody,
+div#align_button div#gatedFiles table tbody {
+	border: 2px solid #ddd;
+	width: 100%;
+}
+
+div#align_button div#flow_frames table tbody tr,
+div#align_button div#gatedFiles table tbody tr{
+	height: 40px;
+}
+
+div#align_button div#flow_frames table tbody tr td,
+div#align_button div#gatedFiles table tbody tr td{
+	vertical-align: middle;
+}
+
+div#align_button div#buttonDel,
+div#align_button div#buttonDelGated {
+	margin-top: 30px;
+	height:auto;
+	float:left;
+
+}
+
+div#align_button div#buttonDel button,
+div#align_button div#buttonDelGated button {
+	display: block;
+	margin-top: 4px;
+	margin-left: 4px;
+	border: 2px solid #ddd;
+}
+
+div[data-value = "Run SCAFFoLD analysis"] div#scaffoldCoupleFiles table.table,
+div[data-value = "Map dataset"] div#mappingui_valid_couples table.table {
+	border: 3px solid #ffd787
+}
+
+div[data-value="Map dataset"] div.well {
+	background-color: #ffd787
+}
+
+div[data-value="Map dataset"] div.well ul li span.label {
+	color:black;
+}
+
