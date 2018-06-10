@@ -16,7 +16,7 @@ div#align_button div#gatedFiles table {
 
 div#align_button div#flow_frames table tbody,
 div#align_button div#gatedFiles table tbody {
-	border: 2px solid #ddd;
+	/*border: 2px solid #ddd;*/
 	width: 100%;
 }
 
@@ -43,7 +43,7 @@ div#align_button div#buttonDelGated button {
 	display: block;
 	margin-top: 4px;
 	margin-left: 4px;
-	border: 2px solid #ddd;
+	/*border: 2px solid #ddd;*/
 }
 
 div[data-value = "Run SCAFFoLD analysis"] div#scaffoldCoupleFiles table.table,
@@ -51,11 +51,11 @@ div[data-value = "Map dataset"] div#mappingui_valid_couples table.table {
 	border: 3px solid #ffd787
 }
 
-div[data-value="Map dataset"] div.well {
+/*div[data-value="Map dataset"] div.well {
 	background-color: #ffd787
 }
 
 div[data-value="Map dataset"] div.well ul li span.label {
 	color:black;
-}
+}*/
 

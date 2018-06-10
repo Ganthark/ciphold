@@ -2,15 +2,17 @@
 ##Each section represents a tab of the interface.
 
 source("functions.R")
+library(shinythemes)
 
 shinyUI(navbarPage(
-	"SCAFFOLD - CIPHOLD v0.1",
+	"SCAFFOLD - CIPHOLD v0.2",
 
 	# Run clustering ----------------------------------------------------------
 
 	tabPanel(
 		"Run clustering",
-		fluidPage(fluidRow(
+		fluidPage( theme = shinytheme("slate"),
+		  fluidRow(
 			column(
 				6,
 				uiOutput("clusteringui1")
@@ -123,7 +125,7 @@ shinyUI(navbarPage(
 
 	tabPanel(
 		"Run SCAFFoLD analysis",
-		fluidPage(
+		fluidPage( theme = shinytheme("slate"),
 			fluidRow(column(
 				6,
 				fileInput(
@@ -259,7 +261,7 @@ shinyUI(navbarPage(
 
 
 	tabPanel("Map exploration",
-			 fluidPage(
+			 fluidPage( theme = shinytheme("slate"),
 			 	fluidRow(
 			 		column(
 			 			9,
@@ -468,7 +470,7 @@ shinyUI(navbarPage(
 	# Map dataset -------------------------------------------------------------
 
 	tabPanel("Map dataset",
-			 fluidPage(
+			 fluidPage( theme = shinytheme("slate"),
 			 	tags$head(tags$script(src = "jquery-ui.min.js")),
 			 	singleton(tags$head(
 			 		tags$link(rel = 'stylesheet', type = 'text/css', href = 'custom.css')

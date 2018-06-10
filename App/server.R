@@ -15,6 +15,7 @@ library(grDevices)
 library(parallel)
 library(jsonlite)
 library(colourpicker)
+library(tcltk)
 
 options(expressions = 5e5,
         shiny.maxRequestSize = 20 * 1024 ^ 3) #increase max file upload size to 20 Gb
@@ -132,10 +133,9 @@ shinyServer(function(input, output, session) {
     }
   })
 
-  #Function running when the user wants to select where to save files
+  #Function running when the user wants to select where to save files. Depending on the OS different functions are used because no one is actually portable on every OS.
   observeEvent(input$saveClustering, {
-    r$outputDirectory <-
-      choose.dir(caption = "Select a Folder for saving:")
+   r$outputDirectory <- chooseDir()
   })
 
   #Function triggering whenever the user changes the transformation or the cofactor. The function stocks informations about the current selection.
@@ -241,6 +241,7 @@ shinyServer(function(input, output, session) {
   observe({
     if (!is.null(r$outputDirectory) &&
         (r$outputDirectory != "NA") &&
+        (r$outputDIrectory != "") &&
         !is.null(r$flow.frames) &&
         !is.null(r$clustering.groups) &&
         !is.null(input$clusteringui_markers)) {

@@ -4,6 +4,31 @@
 ##They are not commented.
 ##The new functions are on the top of their respective sections.
 
+
+##GLOBAL FUNCTIONS
+
+chooseDir <-  function() {
+  OS <- Sys.info()["sysname"]
+    if (OS=="Windows") {
+    Dir <-
+      choose.dir(default = "", caption = "Select a Folder for saving:")
+    }
+    else if (OS=="Linux") {
+      Dir <- tk_choose.dir(default = "", caption = "Select a Folder for saving:")
+    }
+    else {
+      Dir <- choose.mac.dir()
+    }
+  return(Dir)
+}
+#Function used to select a folder via interface on a mac OS system.
+choose.mac.dir <- function() {
+	system("osascript -e 'tell app \"R\" to POSIX path of (choose folder with prompt \"Select a Folder for saving:\")' > /tmp/R_folder",
+			intern = FALSE, ignore.stderr = TRUE)
+	p <- system("cat /tmp/R_folder && rm -f /tmp/R_folder", intern = TRUE)
+	return(ifelse(length(p), p, NA))
+}
+
 ##CLUSTERING
 options(stringsAsFactors = F)
 
@@ -235,8 +260,20 @@ write_clustering_output <- function(base.name, tab.medians, clustered.data, outp
 {
 	if(output.type == "legacy")
 	{
-		write.table(tab.medians, file = paste(output.dir, "\\", base.name, ".clustered.txt", sep = ""), row.names = F, sep = "\t", quote = F)
-		my_save(clustered.data, paste(output.dir, "\\", base.name, ".clustered.all_events.RData", sep = ""))
+	  OS <- Sys.info()["sysname"]
+    if (OS=="Windows") {
+  		write.table(tab.medians, file = paste(output.dir, "\\", base.name, ".clustered.txt", sep = ""), row.names = F, sep = "\t", quote = F)
+  		my_save(clustered.data, paste(output.dir, "\\", base.name, ".clustered.all_events.RData", sep = ""))
+    }
+    else if (OS=="Linux") {
+      write.table(tab.medians, file = paste(output.dir, "/", base.name, ".clustered.txt", sep = ""), row.names = F, sep = "\t", quote = F)
+	  	my_save(clustered.data, paste(output.dir, "/", base.name, ".clustered.all_events.RData", sep = ""))
+    }
+    else {
+      write.table(tab.medians, file = paste(output.dir, "/", base.name, ".clustered.txt", sep = ""), row.names = F, sep = "\t", quote = F)
+	  	my_save(clustered.data, paste(output.dir, "/", base.name, ".clustered.all_events.RData", sep = ""))
+    }
+
 	}
 	else if(output.type == "directory")
 	{
