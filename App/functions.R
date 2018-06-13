@@ -15,10 +15,10 @@ chooseDir <-  function() {
     }
     else if (OS=="Linux") {
       Dir <- tk_choose.dir(default = "", caption = "Select a Folder for saving:")
-    }
+      }
     else {
       Dir <- choose.mac.dir()
-    }
+      }
   return(Dir)
 }
 #Function used to select a folder via interface on a mac OS system.

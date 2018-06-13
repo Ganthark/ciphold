@@ -136,6 +136,9 @@ shinyServer(function(input, output, session) {
   #Function running when the user wants to select where to save files. Depending on the OS different functions are used because no one is actually portable on every OS.
   observeEvent(input$saveClustering, {
    r$outputDirectory <- chooseDir()
+   if (is.na(r$outputDirectory)) {
+     r$outputDirectory <- NULL
+   }
   })
 
   #Function triggering whenever the user changes the transformation or the cofactor. The function stocks informations about the current selection.
@@ -231,7 +234,6 @@ shinyServer(function(input, output, session) {
   colnames = T,
   width = "100%")
 
-
   # output$listFiles <- renderPrint(names(r$flow.frames))
 
   #The two next functions are used to check wheter all minimum conditions are met before launching the clustering.
@@ -239,9 +241,14 @@ shinyServer(function(input, output, session) {
     r$clustering_start <- "GO"
   })
   observe({
+    print(!is.null(r$outputDirectory))
+    print(r$outputDirectory != "")
+    print(!is.null(r$flow.frames))
+    print(!is.null(r$clustering.groups))
+    print(!is.null(input$clusteringui_markers))
+    print("-------------")
     if (!is.null(r$outputDirectory) &&
-        (r$outputDirectory != "NA") &&
-        (r$outputDIrectory != "") &&
+        r$outputDirectory != "" &&
         !is.null(r$flow.frames) &&
         !is.null(r$clustering.groups) &&
         !is.null(input$clusteringui_markers)) {
@@ -295,7 +302,7 @@ shinyServer(function(input, output, session) {
       return("Some fields are empty. Please check yout inputs.")
     }
     else
-      return("")
+      return("Clustering ready.")
   })
 
   #Generates the selection widget to select the reference file for markers from input files.
