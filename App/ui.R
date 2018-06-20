@@ -4,7 +4,7 @@
 source("functions.R")
 library(shinythemes)
 
-shinyUI(navbarPage(
+shinyUI(navbarPage( theme = shinytheme("darkly"), #Theme can be changed here.
 	"SCAFFOLD - CIPHOLD v0.2",
 
 	# Run clustering ----------------------------------------------------------
@@ -125,7 +125,7 @@ shinyUI(navbarPage(
 
 	tabPanel(
 		"Run SCAFFoLD analysis",
-		fluidPage( theme = shinytheme("slate"),
+		fluidPage(
 			fluidRow(column(
 				6,
 				fileInput(
@@ -261,7 +261,7 @@ shinyUI(navbarPage(
 
 
 	tabPanel("Map exploration",
-			 fluidPage( theme = shinytheme("slate"),
+			 fluidPage(
 			 	fluidRow(
 			 		column(
 			 			9,
@@ -470,7 +470,7 @@ shinyUI(navbarPage(
 	# Map dataset -------------------------------------------------------------
 
 	tabPanel("Map dataset",
-			 fluidPage( theme = shinytheme("slate"),
+			 fluidPage(
 			 	tags$head(tags$script(src = "jquery-ui.min.js")),
 			 	singleton(tags$head(
 			 		tags$link(rel = 'stylesheet', type = 'text/css', href = 'custom.css')
