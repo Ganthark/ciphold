@@ -11,7 +11,7 @@ shinyUI(navbarPage(
 
 	tabPanel(
 		"Run clustering",
-		fluidPage( theme = shinytheme("slate"),
+		fluidPage(
 		  fluidRow(
 			column(
 				6,

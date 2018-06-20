@@ -241,12 +241,6 @@ shinyServer(function(input, output, session) {
     r$clustering_start <- "GO"
   })
   observe({
-    print(!is.null(r$outputDirectory))
-    print(r$outputDirectory != "")
-    print(!is.null(r$flow.frames))
-    print(!is.null(r$clustering.groups))
-    print(!is.null(input$clusteringui_markers))
-    print("-------------")
     if (!is.null(r$outputDirectory) &&
         r$outputDirectory != "" &&
         !is.null(r$flow.frames) &&
@@ -393,6 +387,8 @@ shinyServer(function(input, output, session) {
       ), function(x) {
         return(paste0(sample(letters, x + 1, replace = TRUE), collapse = ""))
       })))
+
+    if (length(r$scaffoldCoupleFiles) > 0) {
     names(r$analysisFiles) <- r$couplesid
     names(r$couplesid) <- r$couplesid
     names(r$scaffoldCoupleFiles) <- r$couplesid
@@ -438,6 +434,7 @@ shinyServer(function(input, output, session) {
       }
     }
     names(r$loaded.rdata) <- rdata
+    }
   })
 
   #When a deleting button for the file pairs is triggered, deletes the files from the different variables.
@@ -1149,6 +1146,7 @@ shinyServer(function(input, output, session) {
         }
       }
     }
+
     couple.temp <- lapply(analysis.temp, function (x) {
       a <- NULL
       for (i in liste.temp) {
@@ -1158,6 +1156,7 @@ shinyServer(function(input, output, session) {
       }
       return(as.vector(a))
     })
+
     r$d.files.clustered.dataset <-
       c(r$d.files.clustered.dataset, analysis.temp)
     r$d.files.clustered.input <-
