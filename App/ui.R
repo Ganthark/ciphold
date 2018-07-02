@@ -532,7 +532,10 @@ shinyUI(navbarPage( theme = shinytheme("darkly"), #Theme can be changed here.
 			 	fluidRow(
 			 		column(12,
 			 			   actionButton("saveDataset", "Saving Folder"),
-			 			   verbatimTextOutput("saveDatasetFolder"), br(), br(),
+			 			   verbatimTextOutput("saveDatasetFolder"), br(), br()
+			 		)),
+			 		fluidRow(
+			 		  column(12,
 			 			   actionButton("mappingui_start", "Start analysis"), br(), br(),
 			 			   conditionalPanel(
 			 			     condition <- "!is.null(output.test1)",
@@ -545,6 +548,19 @@ shinyUI(navbarPage( theme = shinytheme("darkly"), #Theme can be changed here.
 			 			     strong(textOutput("mapping_state")), br()
 			 			   )),
 			 			   verbatimTextOutput("mappingui_dialog"), br(), br(), br(), br(), br(), br()
+
+			 			   # actionButton("mappingui_start", "Start analysis"), br(), br(),
+			 			   # conditionalPanel(
+			 			   #   condition <- "$('html').hasClass('shiny-busy')",
+			 			   #   br(),
+			 			   #   p(strong("Processing data...please wait."))
+			 			   # ),
+			 			   # conditionalPanel(
+			 			   #   condition <- "!$('html').hasClass('shiny-busy') && input.mappingui_start > 0",
+			 			   #   br(),
+			 			   #   p(strong("Data processing is complete!"))
+			 			   # ),
+			 			   # verbatimTextOutput("mappingui_dialog"), br(), br(), br(), br(), br(), br() )
 			 		)
 
 			 ))

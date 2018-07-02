@@ -85,18 +85,22 @@ process_files_groups <- function(flow.frames, col.names, num_clusters, num_sampl
 	tab <- NULL
 	orig.data <- NULL
 	temp <- NULL
-	if (length(names(flow.frames)) > 1) {
-		f <- names(flow.frames[[1]])
-	}
-	else {
-		f <- names(flow.frames)
-	}
+	# if (length(names(flow.frames)) > 1) {
+	# 	f <- names(flow.frames[[1]])
+	# }
+	# else {
+	# 	f <- names(flow.frames)
+	# }
 	for(i in c(1:length(flow.frames)))
 	{
-		if (class(flow.frames[[1]]) == "flowFrame")
+		if (class(flow.frames[[1]]) == "flowFrame") {
 			elt <- flow.frames[[1]]
-		else
+		  f <- names(flow.frames)
+		}
+		else {
 			elt <- flow.frames[[i]][[1]]
+	    f <- names(flow.frames[[i]])
+		}
 		temp.orig.data <- exprs(elt)
 		temp.tab <- convert_fcs(elt, cofactor, transform.data = transform.data)
 		colnames(temp.tab) <- pData(parameters(elt))$desc
