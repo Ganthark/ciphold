@@ -500,12 +500,14 @@ shinyUI(navbarPage( theme = shinytheme("darkly"), #Theme can be changed here.
 			 	fluidRow(
 			 		column(6,
 			 					selectInput("mappingui_ref_scaffold_file_markers", "Select the markers to include in the mapping", choices = c(""), multiple = T, width = "100%"),
+			 					actionButton("add_mappingui_ref_scaffold_file_markers", "Add All"),
 			 					br(), br(),
 			 					wellPanel(returnOrder("mappingui_ref_markers_list", c(""))),
 			 					br(), br(), br()
 			 	),
 			 	column(6,
 			 			   selectInput("mappingui_sample_clustered_file_markers", "Select the markers to include in the mapping", choices = c(""), multiple = T, width = "100%"),
+			 			   actionButton("add_mappingui_sample_clustered_file_markers", "Add All"),
 			 			   br(), br(),
 			 			   wellPanel(returnOrder("mappingui_clustered_markers_list", c(""))),
 			 			   br(), br(), br()
@@ -533,18 +535,17 @@ shinyUI(navbarPage( theme = shinytheme("darkly"), #Theme can be changed here.
 			 			   verbatimTextOutput("saveDatasetFolder"), br(), br(),
 			 			   actionButton("mappingui_start", "Start analysis"), br(), br(),
 			 			   conditionalPanel(
-			 			   	condition <- "$('html').hasClass('shiny-busy')",
-			 			   	br(),
-			 			   	p(strong("Processing data...please wait."))
+			 			     condition <- "!is.null(output.test1)",
+			 			     br(),
+			 			     p(strong("Processing data...please wait."))
 			 			   ),
 			 			   conditionalPanel(
-			 			   	condition <- "!$('html').hasClass('shiny-busy') && input.mappingui_start > 0",
-			 			   	br(),
-			 			   	p(strong("Data processing is complete!"))
-			 			   ),
+			 			     condition <- "!is.null(output.mapping_state)",
+			 			     br(),
+			 			     strong(textOutput("mapping_state")), br()
+			 			   )),
 			 			   verbatimTextOutput("mappingui_dialog"), br(), br(), br(), br(), br(), br()
 			 		)
-			 	)
 
 			 ))
 

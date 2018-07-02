@@ -77,7 +77,10 @@ shinyServer(function(input, output, session) {
     d.files.clustered.tables = NULL,
     d.clustered.txt = NULL,
     d.files.clustered.dataset = list(),
-    d.files.clustered.id = NULL
+    d.files.clustered.id = NULL,
+
+    mapping_start = "NO",
+    mapping_check = "NO"
   )
 
   # Clustering --------------------------------------------------------------
@@ -521,7 +524,7 @@ shinyServer(function(input, output, session) {
   #Allows the user to choose a saving folder.
   observeEvent(input$saveAnalysis, {
     r$outputDirectory <-
-      choose.dir(caption = "Select a Folder for saving")
+      chooseDir()
   })
 
   #Checks any changes to the transformation field and updates the coresponding variables.
@@ -1080,20 +1083,19 @@ shinyServer(function(input, output, session) {
     }
   })
   # Map dataset -------------------------------------------------------------
-
-  # observe({
-  # 	if(!is.null(input$graphui_color_scaling) && input$graphui_color_scaling == "global")
-  # 	{
-  # 		updateSliderInput(session, "graphui_color_scale_lim", min = input$graphui_color_scale_min,
-  # 						  max = input$graphui_color_scale_max)
-  # 	}
-  # })
-
+#
+#   observe({
+#   	if(!is.null(input$graphui_color_scaling) && input$graphui_color_scaling == "global")
+#   	{
+#   		updateSliderInput(session, "graphui_color_scale_lim", min = input$graphui_color_scale_min,
+#   						  max = input$graphui_color_scale_max)
+#   	}
+#   })
 
   #Allows the user to select a folder where to save output files.
   observeEvent(input$saveDataset, {
     r$outputDirectory <-
-      choose.dir(caption = "Select a Folder for saving")
+      chooseDir()
   })
 
   #Updates marker choice when a reference clustered file is selected.
@@ -1294,7 +1296,7 @@ shinyServer(function(input, output, session) {
   })
 
 
-#Updtaes the list of valid selected pairs.
+#Updates the list of valid selected pairs.
   output$mappingui_valid_couples <- renderUI({
     if (is.null(r$d.files.clustered.input) ||
         !length(r$d.files.clustered.input)) {
@@ -1314,9 +1316,35 @@ shinyServer(function(input, output, session) {
     r$outputDirectory
   })
 
+  #The two next functions are used to check wheter all minimum conditions are met before launching the mapping.
+  observeEvent(input$mappingui_start, {
+    r$mapping_start = "GO"
+  })
+  observe({
+    if (!is.null(r$outputDirectory) &&
+        !is.null(input$mappingui_clustered_markers_list) &&
+        !is.null(input$mappingui_ref_markers_list) &&
+        !is.null(r$d.file.scaffold.dataset) &&
+        !is.null(input$mappingui_reference) &&
+        !is.null(r$d.files.clustered.tables) &&
+        !is.null(r$d.files.rdata)
+        )
+      r$mapping_check <- "GO"
+    else
+      r$mapping_check <- "NO"
+  })
+
+  observe({
+    if (r$mapping_start == "GO" && r$mapping_check == "GO")
+      output$test1 <- 1
+    else
+      output$test1 <- NULL
+  })
+
+
   #Runs the analysis and processes the files.
   output$mappingui_dialog <- renderText({
-    if (!is.null(input$mappingui_start) && input$mappingui_start != 0)
+    if (r$mapping_start == "GO" && r$mapping_check == "GO")
       isolate({
         col.names <- input$mappingui_clustered_markers_list
         ref.col.names <- input$mappingui_ref_markers_list
@@ -1345,8 +1373,9 @@ shinyServer(function(input, output, session) {
           overlap_method = input$mappingui_overlap_method,
           ew_influence = ew_influence
         )
-
-
+        output$mapping_state <- renderText({
+          "Data processing is complete!"
+        })
         # updateSelectInput(session, "graphui_dataset", choices = c("", list.files(path = working.directory, pattern = "*.scaffold$")))
         ret <-
           sprintf(
@@ -1362,6 +1391,12 @@ shinyServer(function(input, output, session) {
           ), sep = "")
         return(ret)
       })
+    else if (r$mapping_check == "NO") {
+      r$mapping_start <- "NO"
+      return("Some fields are empty. Please check yout inputs.")
+    }
+    else
+      return("Mapping ready.")
   })
 
 })

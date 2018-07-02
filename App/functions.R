@@ -366,7 +366,6 @@ run_analysis_existing <- function(.scaffold, refClusteredFiles, clusteredTables,
 	ref.scaffold.file <- refClusteredFiles[2]
 	ref.scaffold.data <- .scaffold
 	ref.scaffold.markers <- ref.scaffold.data$scaffold.col.names
-	View(ref.scaffold.markers)
 	l <- load_existing_layout(ref.scaffold.data)
 	tab.attractors <- l$tab.attractors
 	G.attractors <- l$G.attractors
@@ -374,7 +373,6 @@ run_analysis_existing <- function(.scaffold, refClusteredFiles, clusteredTables,
 	ret <- process_files(files.list, G.attractors, tab.attractors, att.labels, col.names,
 						 scaffold.mode = "existing", ref.scaffold.markers = ref.scaffold.markers, names.mapping = names.mapping, all_events = rdata, ...)
 	ret <- c(list(scaffold.col.names = col.names, landmarks.data = ref.scaffold.data$landmarks.data), ret)
-	View(ret)
 	my_save(ret, paste(outputDir, sprintf("%s.scaffold", basename(refClusteredFiles[1])), sep = "/"))
 	return(files.list)
 }
