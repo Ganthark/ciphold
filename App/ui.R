@@ -536,31 +536,31 @@ shinyUI(navbarPage( theme = shinytheme("darkly"), #Theme can be changed here.
 			 		)),
 			 		fluidRow(
 			 		  column(12,
-			 			   actionButton("mappingui_start", "Start analysis"), br(), br(),
-			 			   conditionalPanel(
-			 			     condition <- "!is.null(output.test1)",
-			 			     br(),
-			 			     p(strong("Processing data...please wait."))
-			 			   ),
-			 			   conditionalPanel(
-			 			     condition <- "!is.null(output.mapping_state)",
-			 			     br(),
-			 			     strong(textOutput("mapping_state")), br()
-			 			   )),
-			 			   verbatimTextOutput("mappingui_dialog"), br(), br(), br(), br(), br(), br()
-
 			 			   # actionButton("mappingui_start", "Start analysis"), br(), br(),
 			 			   # conditionalPanel(
-			 			   #   condition <- "$('html').hasClass('shiny-busy')",
+			 			   #   condition <- "!is.null(output.test1)",
 			 			   #   br(),
 			 			   #   p(strong("Processing data...please wait."))
 			 			   # ),
 			 			   # conditionalPanel(
-			 			   #   condition <- "!$('html').hasClass('shiny-busy') && input.mappingui_start > 0",
+			 			   #   condition <- "!is.null(output.mapping_state)",
 			 			   #   br(),
-			 			   #   p(strong("Data processing is complete!"))
-			 			   # ),
-			 			   # verbatimTextOutput("mappingui_dialog"), br(), br(), br(), br(), br(), br() )
+			 			   #   strong(textOutput("mapping_state")), br()
+			 			   # )),
+			 			   # verbatimTextOutput("mappingui_dialog"), br(), br(), br(), br(), br(), br()
+
+			 			   actionButton("mappingui_start", "Start analysis"), br(), br(),
+			 			   conditionalPanel(
+			 			     condition <- "$('html').hasClass('shiny-busy')",
+			 			     br(),
+			 			     p(strong("Processing data...please wait."))
+			 			   ),
+			 			   conditionalPanel(
+			 			     condition <- "!$('html').hasClass('shiny-busy') && input.mappingui_start > 0",
+			 			     br(),
+			 			     p(strong("Data processing is complete!"))
+			 			   ),
+			 			   verbatimTextOutput("mappingui_dialog"), br(), br(), br(), br(), br(), br() )
 			 		)
 
 			 ))

@@ -133,6 +133,8 @@ shinyServer(function(input, output, session) {
         selected = v,
         choices = c("", v)
       )
+
+
     }
   })
 
@@ -490,13 +492,20 @@ shinyServer(function(input, output, session) {
   observeEvent(input$add_all_markers_analysis, {
     if (!is.null(input$reference_gated))
     {
+
       tab <-
         (r$clustered.tables[names(r$clustered.tables) == input$reference_gated])
+      choice <- names(tab[[1]])
+
+      #Allows to not add markers containing @ to the selection
+      pattern <- grepl("@+",names(tab[[1]]))
+      selection <- choice[!pattern]
+
       updateSelectInput(
         session,
         "analysisui_markers",
-        selected = names(tab[[1]]),
-        choices = c("", names(tab[[1]]))
+        selected = selection,
+        choices = c("", choice)
       )
     }
   })
@@ -505,13 +514,20 @@ shinyServer(function(input, output, session) {
   observeEvent(input$add_all_markers_inter_analysis, {
     if (!is.null(input$reference_gated))
     {
-      tab <-
-        (r$clustered.tables[names(r$clustered.tables) == input$reference_gated])
-      updateSelectInput(
-        session,
-        "analysisui_markers_inter_cluster",
-        selected = names(tab[[1]]),
-        choices = c("", names(tab[[1]]))
+
+        tab <-
+          (r$clustered.tables[names(r$clustered.tables) == input$reference_gated])
+        choice <- names(tab[[1]])
+
+        #Allows to not add markers containing @ to the selection
+        pattern <- grepl("@+",names(tab[[1]]))
+        selection <- choice[!pattern]
+
+        updateSelectInput(
+          session,
+          "analysisui_markers_inter_cluster",
+          selected = selection,
+          choices = c("", choice)
       )
     }
   })
@@ -661,7 +677,6 @@ shinyServer(function(input, output, session) {
 
     if (!is.null(input$analysisui_start) &&
         input$analysisui_start != 0) {
-      print(input$analysisui_start)
 
         isolate({
           if (!is.null(input$reference_gated) &&
@@ -693,6 +708,7 @@ shinyServer(function(input, output, session) {
                   overlap_method = "repel",
                   transform.data = r$a.transform.data
                 )
+              print("Analysis done.")
             }
           }
           # updateSelectInput(session, "graphui_dataset", choices = c("", list.files(path = working.directory, pattern = "*.scaffold$")))
@@ -713,7 +729,7 @@ shinyServer(function(input, output, session) {
       return("Some fields are empty. Please check yout inputs.")
     }
     else
-      return("")
+      return("Analysis ready.")
   })
 
   #Shows the user the actual saving folder.
@@ -1218,6 +1234,30 @@ shinyServer(function(input, output, session) {
     }
   })
 
+
+
+
+  #Adds all markers into the corresponding field when the user press the button.
+  observeEvent(input$add_mappingui_sample_clustered_file_markers, {
+    if (!is.null(input$mappingui_added_files))
+    {
+      tab <-
+        names(r$d.files.clustered.tables[names(r$d.files.clustered.tables) == input$mappingui_reference][[1]])
+
+      #Allows to not add markers containing @ to the selection
+      pattern <- grepl("@+", tab)
+      selection <- tab[!pattern]
+      print(selection)
+
+      updateSelectInput(
+        session,
+        "mappingui_sample_clustered_file_markers",
+        selected = selection,
+        choices = c("", tab)
+      )
+    }
+  })
+
   #Checks for delete buttons triggering to remove related pairs.
   observeEvent(input$mappingTrash$key, {
     key <- input$mappingTrash$key
@@ -1262,6 +1302,21 @@ shinyServer(function(input, output, session) {
       )
     }
   })
+
+  #Adds all markers into the corresponding field when the user press the button.
+  observeEvent(input$add_mappingui_ref_scaffold_file_markers, {
+    if (!is.null(input$mappingui_ref_scaffold_file))
+    {
+      tab <- r$d.file.scaffold.dataset$scaffold.col.names
+      updateSelectInput(
+        session,
+        "mappingui_ref_scaffold_file_markers",
+        selected = tab,
+        choices = c("", tab)
+      )
+    }
+  })
+
 
   #Updates list of markers for clustered files in the corresponding box.
   observe({
@@ -1332,13 +1387,6 @@ shinyServer(function(input, output, session) {
       r$mapping_check <- "GO"
     else
       r$mapping_check <- "NO"
-  })
-
-  observe({
-    if (r$mapping_start == "GO" && r$mapping_check == "GO")
-      output$test1 <- 1
-    else
-      output$test1 <- NULL
   })
 
 
