@@ -1317,14 +1317,20 @@ shinyServer(function(input, output, session) {
         choices = c("", tab)
       )
 
-      ##test code##
       tab2 <-
         names(r$d.files.clustered.tables[names(r$d.files.clustered.tables) == input$mappingui_reference][[1]])
+      add <- list()
+      for (i in tab) {
+        if (i %in% tab2) {
+          add <- c(add, i)
+        }
+      }
+
       updateSelectInput(
         session,
         "mappingui_sample_clustered_file_markers",
         selected = tab,
-        choices = c("", tab2)
+        choices = c("", add)
       )
       ##test code end##
 
