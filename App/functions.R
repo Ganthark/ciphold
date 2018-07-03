@@ -350,7 +350,7 @@ run_analysis_gated <- function(flow.frames, clusteredFiles, all_events, outputDi
 	gated.flow.frames <- lapply(c(1:length(flow.frames)), function(i) {flow.frames[[i]]@exprs})
 	print(sprintf("Markers used for SCAFFoLD: %s", paste(col.names, collapse = ", ")))
 	print(paste("Using as reference", names(flow.frames)[[1]], sep = " "))
-	gated_data <- load_attractors_from_gated_data(flow.frames, all_events, cofactor, transform.data, col.names)
+	gated_data <- load_attractors_from_gated_data(flow.frames, cofactor, transform.data, col.names)
 	tab.attractors <- gated_data$tab.attractors
 	att.labels <- gated_data$cellType_key$population
 	G.attractors <- NULL
@@ -434,7 +434,7 @@ process_files <- function(clusteredFiles, G.attractors, tab.attractors, att.labe
     names(clustered.data) <- map_names(names(clustered.data))
     clustered.data <- downsample_by(clustered.data, "cellType", 1000)
     ret$graphs[names(clusteredFiles)[[i]]] <- list(G.complete)
-    ret$clustered.data[names(clusteredFiles)[[i]]] <- list(clustered.data)
+    # ret$clustered.data[names(clusteredFiles)[[i]]] <- list(clustered.data) ##marque-page
 
     G.attractors <- res$G.attractors
   }
@@ -477,7 +477,7 @@ get_file_couples <- function(v, key, tag) {
   )
 }
 
-load_attractors_from_gated_data <- function(flow.frames, all_events, cofactor, transform.data = "", col.names, ...)
+load_attractors_from_gated_data <- function(flow.frames, cofactor, transform.data = "", col.names, ...)
 {
 	res <- NULL
 	for(i in c(1:length(flow.frames)))

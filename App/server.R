@@ -295,7 +295,9 @@ shinyServer(function(input, output, session) {
                               list.files(path = r$outputDirectory,
                                          pattern = "*.clustered.txt$")
                             ))
-          return(ret)})}
+          return(ret)
+          r$clustering_start <- "NO"
+        })}
     else if (r$clustering_check == "NO") {
       r$clustering_start <- "NO"
       return("Some fields are empty. Please check yout inputs.")
@@ -723,6 +725,7 @@ shinyServer(function(input, output, session) {
               paste(files.analyzed, collapse = "\n")
             ), sep = "")
           return(ret)
+          r$analysis_start = "NO"
         })}
     else if (r$analysis_check == "NO") {
       r$analysis_start <- "NO"
@@ -1382,7 +1385,7 @@ shinyServer(function(input, output, session) {
     r$outputDirectory
   })
 
-  #The two next functions are used to check wheter all minimum conditions are met before launching the mapping.
+  #The two next functions are used to check whether all minimum conditions are met before launching the mapping.
   observeEvent(input$mappingui_start, {
     r$mapping_start = "GO"
   })
@@ -1450,6 +1453,7 @@ shinyServer(function(input, output, session) {
             paste(names(names.map), collapse = " ")
           ), sep = "")
         return(ret)
+        r$mapping_start = "NO"
       })
     else if (r$mapping_check == "NO") {
       r$mapping_start <- "NO"
