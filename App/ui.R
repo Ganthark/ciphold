@@ -515,8 +515,9 @@ shinyUI(navbarPage( theme = shinytheme("darkly"), #Theme can be changed here.
 			 	),
 			 	fluidRow(
 			 		column(12,
-			 			   selectInput("mappingui_ew_influence_type", "Edge weight influence", choices = c("Proportional", "Fixed")),
-			 			   conditionalPanel(
+			 		      selectInput("mapping_method", "Mapping method", choices = c("Concatenation", "From scratch")),
+			 			    selectInput("mappingui_ew_influence_type", "Edge weight influence", choices = c("Proportional", "Fixed")),
+			 			    conditionalPanel(
 			 			   	condition = "input.mappingui_ew_influence_type == 'Fixed'",
 			 			   	numericInput("mappingui_ew_influence", "Specifiy Edge weight value", 12), br()
 			 			   ),

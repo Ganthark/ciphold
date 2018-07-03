@@ -362,7 +362,7 @@ run_analysis_gated <- function(flow.frames, clusteredFiles, all_events, outputDi
 }
 
 #Runs the existing analysis, mainly like the original code but with a few tricks due to how data are processed in this version.
-run_analysis_existing <- function(.scaffold, refClusteredFiles, clusteredTables, rdata, outputDir, col.names, names.mapping = NULL, ...)
+run_analysis_existing <- function(.scaffold, refClusteredFiles, clusteredTables, rdata, outputDir, col.names, names.mapping = NULL, mode, ...)
 {
 	files.list <- clusteredTables
 	print(sprintf("Markers used for SCAFFoLD: %s", paste(col.names, collapse = ", ")))
@@ -377,8 +377,21 @@ run_analysis_existing <- function(.scaffold, refClusteredFiles, clusteredTables,
 	ret <- process_files(files.list, G.attractors, tab.attractors, att.labels, col.names,
 						 scaffold.mode = "existing", ref.scaffold.markers = ref.scaffold.markers, names.mapping = names.mapping, all_events = rdata, ...)
 	ret <- c(list(scaffold.col.names = col.names, landmarks.data = ref.scaffold.data$landmarks.data), ret)
-	my_save(ret, paste(outputDir, sprintf("%s.scaffold", basename(refClusteredFiles[1])), sep = "/"))
-	return(files.list)
+	if (mode == "Concatenation") {
+	  init <- length(ref.scaffold.data)
+	  retgraphs <- as.vector(ret$graphs)
+	  retdata <- as.vector(ret$clustered.data)
+	  for (i in c(1:length(retgraphs))) {
+	    ref.scaffold.data$graphs[names(retgraphs)[i]] <- retgraphs[i]
+	    ref.scaffold.data$clustered.data[names(retdata)[i]] <- retdata[i]
+	    View(ref.scaffold.data)
+	    my_save(ref.scaffold.data, paste(outputDir, sprintf("%s.scaffold", basename(refClusteredFiles[1])), sep = "/"))
+	  }
+	}
+	else {
+	  my_save(ret, paste(outputDir, sprintf("%s.scaffold", basename(refClusteredFiles[1])), sep = "/"))
+	}
+	  return(files.list)
 }
 
 #Function used to process files, only used for the existing analysis from the "map dataset" tab.
@@ -409,7 +422,6 @@ process_files <- function(clusteredFiles, G.attractors, tab.attractors, att.labe
       if(is.null(ew_influence))
         ew_influence <- ceiling(length(col.names) / 3)
     }
-
     tab <- tab[!apply(tab[, col.names], 1, function(x) {all(x == 0)}),]
     names(tab) <- gsub("cellType", "groups", names(tab))
     names(tab) <- gsub("^X", "", names(tab))
@@ -421,13 +433,12 @@ process_files <- function(clusteredFiles, G.attractors, tab.attractors, att.labe
     clustered.data <- all_events[[i]]
     names(clustered.data) <- map_names(names(clustered.data))
     clustered.data <- downsample_by(clustered.data, "cellType", 1000)
-
     ret$graphs[names(clusteredFiles)[[i]]] <- list(G.complete)
     ret$clustered.data[names(clusteredFiles)[[i]]] <- list(clustered.data)
 
     G.attractors <- res$G.attractors
   }
-  ret <- c(ret, list(dataset.statistics = get_dataset_statistics(ret)))
+  suppressWarnings( ret <- c(ret, list(dataset.statistics = get_dataset_statistics(ret))) )
   return(ret)
 }
 

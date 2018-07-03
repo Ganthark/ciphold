@@ -1247,7 +1247,6 @@ shinyServer(function(input, output, session) {
       #Allows to not add markers containing @ to the selection
       pattern <- grepl("@+", tab)
       selection <- tab[!pattern]
-      print(selection)
 
       updateSelectInput(
         session,
@@ -1314,6 +1313,18 @@ shinyServer(function(input, output, session) {
         selected = tab,
         choices = c("", tab)
       )
+
+      ##test code##
+      tab2 <-
+        names(r$d.files.clustered.tables[names(r$d.files.clustered.tables) == input$mappingui_reference][[1]])
+      updateSelectInput(
+        session,
+        "mappingui_sample_clustered_file_markers",
+        selected = tab,
+        choices = c("", tab2)
+      )
+      ##test code end##
+
     }
   })
 
@@ -1419,7 +1430,8 @@ shinyServer(function(input, output, session) {
           col.names.inter_cluster = input$mappingui_markers_inter_cluster,
           inter_cluster.weight_factor = input$mappingui_inter_cluster_weight,
           overlap_method = input$mappingui_overlap_method,
-          ew_influence = ew_influence
+          ew_influence = ew_influence,
+          mode = input$mapping_method
         )
         output$mapping_state <- renderText({
           "Data processing is complete!"
