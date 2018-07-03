@@ -434,7 +434,7 @@ process_files <- function(clusteredFiles, G.attractors, tab.attractors, att.labe
     names(clustered.data) <- map_names(names(clustered.data))
     clustered.data <- downsample_by(clustered.data, "cellType", 1000)
     ret$graphs[names(clusteredFiles)[[i]]] <- list(G.complete)
-    # ret$clustered.data[names(clusteredFiles)[[i]]] <- list(clustered.data) ##marque-page
+    ret$clustered.data[names(clusteredFiles)[[i]]] <- list(clustered.data) ##marque-page
 
     G.attractors <- res$G.attractors
   }
