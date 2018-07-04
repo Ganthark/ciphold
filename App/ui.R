@@ -5,7 +5,7 @@ source("functions.R")
 library(shinythemes)
 
 shinyUI(navbarPage( theme = shinytheme("darkly"), #Theme can be changed here.
-	"SCAFFOLD - CIPHOLD v0.2",
+	"SCAFFOLD - CIPHOLD v0.3",
 
 	# Run clustering ----------------------------------------------------------
 

@@ -748,11 +748,14 @@ shinyServer(function(input, output, session) {
     file_name <- input$graphui_dataset
     if (!is.null(file_name) && file_name != "")
     {
-      print("Loading data...")
+      progress <- Progress$new()
+      progress$set(message = "Loading maps", value = 0.33)
       data <- my_load(file_name$datapath)
+      progress$set(message = "Loading maps", value = 0.66)
       updateSelectInput(session,
                         "graphui_selected_graph",
                         choices = c("", names(data$graphs)))
+      progress$close()
       return(data)
     }
     else
@@ -960,20 +963,6 @@ shinyServer(function(input, output, session) {
     }))
   })
 
-
-
-  output$graphui_mainnet <- reactive({
-    ret <- get_main_graph()
-    if (!is.null(ret))
-    {
-      ret$color <- get_color()
-      ret$trans_to_apply <- isolate({
-        input$graphui_cur_transform
-      })
-    }
-    return(ret)
-  })
-
   output$graphui_table <- renderDataTable({
     sc.data <- scaffold_data()
     if (!is.null(sc.data) &&
@@ -1100,14 +1089,6 @@ shinyServer(function(input, output, session) {
     }
   })
   # Map dataset -------------------------------------------------------------
-#
-#   observe({
-#   	if(!is.null(input$graphui_color_scaling) && input$graphui_color_scaling == "global")
-#   	{
-#   		updateSliderInput(session, "graphui_color_scale_lim", min = input$graphui_color_scale_min,
-#   						  max = input$graphui_color_scale_max)
-#   	}
-#   })
 
   #Allows the user to select a folder where to save output files.
   observeEvent(input$saveDataset, {
