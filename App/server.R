@@ -125,20 +125,20 @@ shinyServer(function(input, output, session) {
     if (!is.null(input$clusteringui_file_for_markers) &&
         grepl("*.fcs$", input$clusteringui_file_for_markers))
     {
-      a <- (names(r$flow.frames) == input$clusteringui_file_for_markers)
-      v <- as.vector(r$flow.frames[a][[1]]@parameters$name)
+      tab <- (names(r$flow.frames) == input$clusteringui_file_for_markers)
+      tab <- as.vector(r$flow.frames[tab][[1]]@parameters$name)
       updateSelectInput(
         session,
         "clusteringui_markers",
         selected = v,
-        choices = c("", v)
+        choices = c("", tab)
       )
 
 
     }
   })
 
-  #Function running when the user wants to select where to save files. Depending on the OS different functions are used because no one is actually portable on every OS.
+  #Function running when the user wants to select where to save files.
   observeEvent(input$saveClustering, {
    r$outputDirectory <- chooseDir()
    if (is.na(r$outputDirectory)) {
@@ -147,7 +147,7 @@ shinyServer(function(input, output, session) {
   })
 
   #Function triggering whenever the user changes the transformation or the cofactor. The function stocks informations about the current selection.
-  observe({
+  observeEvent(input$clustering_transform, {
     if (input$clustering_transform == "Logicle") {
       r$transform.data <- "L"
       r$cofactor <- NULL
@@ -228,19 +228,6 @@ shinyServer(function(input, output, session) {
       })
   })
 
-  #Shows the actual FCS files read by the app.
-  output$flow_frames <- renderTable(expr = {
-    if (!is.null(r$flow.frames)) {
-      table1 <- as.matrix(names(r$flow.frames))
-      colnames(table1) <- c("Selected Files:")
-      return(table1)
-    }
-  },
-  colnames = T,
-  width = "100%")
-
-  # output$listFiles <- renderPrint(names(r$flow.frames))
-
   #The two next functions are used to check wheter all minimum conditions are met before launching the clustering.
   observeEvent(input$clusteringui_start, {
     r$clustering_start <- "GO"
@@ -254,8 +241,20 @@ shinyServer(function(input, output, session) {
       r$clustering_check <- "GO"
     }
     else
-    r$clustering_check <- "NO"
+      r$clustering_check <- "NO"
   })
+
+  #Shows the actual FCS files read by the app.
+  output$flow_frames <- renderTable(expr = {
+    if (!is.null(r$flow.frames)) {
+      table1 <- as.matrix(names(r$flow.frames))
+      colnames(table1) <- c("Selected Files:")
+      return(table1)
+    }
+  },
+  colnames = T,
+  width = "100%")
+
 
   #When all conditions are met, executes the clustering and prints various informations about it.
   output$clusteringui_dialog <- renderText({
@@ -633,6 +632,22 @@ shinyServer(function(input, output, session) {
     })
   })
 
+  #The two next functions are used to check whether all minimum conditions are met before launching the SCAFFoLD analysis.
+  observeEvent(input$analysisui_start, {
+    r$analysis_start = "GO"
+  })
+  observe({
+    if (!is.null(r$outputDirectory) &&
+        (r$outputDirectory != "NA") &&
+        !is.null(r$gated.flow.frames) &&
+        !is.null(r$clustered.tables) &&
+        !is.null(input$analysisui_markers)) {
+      r$analysis_check <- "GO"
+    }
+    else
+      r$analysis_check <- "NO"
+  })
+
   #Function to initiate the graphic output of the couple files, processing them when they exist.
   output$scaffoldCoupleFiles <- renderUI({
     if (is.null(r$scaffoldCoupleFiles) ||
@@ -657,22 +672,6 @@ shinyServer(function(input, output, session) {
       return("No files selected...")
     }
   }, width = "100%")
-
-  #The two next functions are used to check wheter all minimum conditions are met before launching the SCAFFoLD analysis.
-  observeEvent(input$analysisui_start, {
-    r$analysis_start = "GO"
-  })
-  observe({
-    if (!is.null(r$outputDirectory) &&
-        (r$outputDirectory != "NA") &&
-        !is.null(r$gated.flow.frames) &&
-        !is.null(r$clustered.tables) &&
-        !is.null(input$analysisui_markers)) {
-      r$analysis_check <- "GO"
-    }
-    else
-      r$analysis_check <- "NO"
-  })
 
   #When all conditions are met, executes the analysis and prints various informations about it.
   output$analysisui_empty <- renderText({
@@ -761,7 +760,6 @@ shinyServer(function(input, output, session) {
   })
 
   #Every other function from this "Map" section remains as the original found on https://github.com/nolanlab/scaffold/tree/multiFilesClustering.
-
   output$graphui_mainnet <- reactive({
     ret <- get_main_graph()
     if (!is.null(ret))
@@ -1117,26 +1115,6 @@ shinyServer(function(input, output, session) {
       chooseDir()
   })
 
-  #Updates marker choice when a reference clustered file is selected.
-  observe({
-    if (!is.null(input$mappingui_reference) &&
-        input$mappingui_reference != "") {
-      tab <-
-        names(r$d.files.clustered.tables[names(r$d.files.clustered.tables) == input$mappingui_reference][[1]])
-      updateSelectInput(session,
-                        "mappingui_sample_clustered_file_markers",
-                        choices = tab)
-      updateSelectInput(session, "mappingui_markers_inter_cluster", choices = tab)
-    }
-    else {
-      tab <- ""
-      updateSelectInput(session,
-                        "mappingui_sample_clustered_file_markers",
-                        choices = tab)
-      updateSelectInput(session, "mappingui_markers_inter_cluster", choices = tab)
-    }
-  })
-
   #Checks input pair clustered files and adds them to the different related variables as well as the list visible for the user.
   observeEvent(input$mappingui_added_files, {
     analysis.temp <- NULL
@@ -1325,18 +1303,35 @@ shinyServer(function(input, output, session) {
           add <- c(add, i)
         }
       }
-
       updateSelectInput(
         session,
         "mappingui_sample_clustered_file_markers",
         selected = tab,
         choices = c("", add)
       )
-      ##test code end##
-
     }
   })
 
+
+  #Updates marker choice when a reference clustered file is selected.
+  observe({
+    if (!is.null(input$mappingui_reference) &&
+        input$mappingui_reference != "") {
+      tab <-
+        names(r$d.files.clustered.tables[names(r$d.files.clustered.tables) == input$mappingui_reference][[1]])
+      updateSelectInput(session,
+                        "mappingui_sample_clustered_file_markers",
+                        choices = tab)
+      updateSelectInput(session, "mappingui_markers_inter_cluster", choices = tab)
+    }
+    else {
+      tab <- ""
+      updateSelectInput(session,
+                        "mappingui_sample_clustered_file_markers",
+                        choices = tab)
+      updateSelectInput(session, "mappingui_markers_inter_cluster", choices = tab)
+    }
+  })
 
   #Updates list of markers for clustered files in the corresponding box.
   observe({
@@ -1366,10 +1361,27 @@ shinyServer(function(input, output, session) {
 
   #Updates the list of maps selectable to load markers.
   observe({
-    v <- r$d.clustered.txt
-    updateSelectInput(session, "mappingui_reference", choices = c("", v))
+    tab <- r$d.clustered.txt
+    updateSelectInput(session, "mappingui_reference", choices = c("", tab))
   })
 
+  #The two next functions are used to check whether all minimum conditions are met before launching the mapping.
+  observeEvent(input$mappingui_start, {
+    r$mapping_start = "GO"
+  })
+  observe({
+    if (!is.null(r$outputDirectory) &&
+        !is.null(input$mappingui_clustered_markers_list) &&
+        !is.null(input$mappingui_ref_markers_list) &&
+        !is.null(r$d.file.scaffold.dataset) &&
+        !is.null(input$mappingui_reference) &&
+        !is.null(r$d.files.clustered.tables) &&
+        !is.null(r$d.files.rdata)
+    )
+      r$mapping_check <- "GO"
+    else
+      r$mapping_check <- "NO"
+  })
 
 #Updates the list of valid selected pairs.
   output$mappingui_valid_couples <- renderUI({
@@ -1391,28 +1403,9 @@ shinyServer(function(input, output, session) {
     r$outputDirectory
   })
 
-  #The two next functions are used to check whether all minimum conditions are met before launching the mapping.
-  observeEvent(input$mappingui_start, {
-    r$mapping_start = "GO"
-  })
-  observe({
-    if (!is.null(r$outputDirectory) &&
-        !is.null(input$mappingui_clustered_markers_list) &&
-        !is.null(input$mappingui_ref_markers_list) &&
-        !is.null(r$d.file.scaffold.dataset) &&
-        !is.null(input$mappingui_reference) &&
-        !is.null(r$d.files.clustered.tables) &&
-        !is.null(r$d.files.rdata)
-        )
-      r$mapping_check <- "GO"
-    else
-      r$mapping_check <- "NO"
-  })
-
-
   #Runs the analysis and processes the files.
   output$mappingui_dialog <- renderText({
-    if (r$mapping_start == "GO" && r$mapping_check == "GO")
+    if (r$mapping_start == "GO" && r$mapping_check == "GO") {
       isolate({
         col.names <- input$mappingui_clustered_markers_list
         ref.col.names <- input$mappingui_ref_markers_list
@@ -1461,6 +1454,7 @@ shinyServer(function(input, output, session) {
         return(ret)
         r$mapping_start = "NO"
       })
+    }
     else if (r$mapping_check == "NO") {
       r$mapping_start <- "NO"
       return("Some fields are empty. Please check yout inputs.")

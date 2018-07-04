@@ -274,10 +274,7 @@ shinyUI(navbarPage( theme = shinytheme("darkly"), #Theme can be changed here.
 			 			singleton(tags$head(
 			 				tags$link(rel = 'stylesheet', type = 'text/css', href = 'graph.css')
 			 			)),
-			 			conditionalPanel(
-			 				condition = !is.null("output.graphui_mainnet"),
-			 				reactiveNetwork(outputId = "graphui_mainnet")
-			 			),
+			 				reactiveNetwork(outputId = "graphui_mainnet"),
 
 			 			dataTableOutput("graphui_table")
 			 		),
@@ -557,12 +554,23 @@ shinyUI(navbarPage( theme = shinytheme("darkly"), #Theme can be changed here.
 			 			     p(strong("Processing data...please wait."))
 			 			   ),
 			 			   conditionalPanel(
-			 			     condition <- "!$('html').hasClass('shiny-busy') && input.mappingui_start > 0",
+			 			     condition <-
+			 			       "(!($('html').hasClass('shiny-busy'))) && (input.mappingui_start > 0)",
 			 			     br(),
 			 			     p(strong("Data processing is complete!"))
-			 			   ),
-			 			   verbatimTextOutput("mappingui_dialog"), br(), br(), br(), br(), br(), br() )
-			 		)
+			 			   )
+			 		  )
+			 		),
+			 	fluidRow(column(
+			 	  12,
+			 	  verbatimTextOutput("mappingui_dialog"),
+			 	  br(),
+			 	  br(),
+			 	  br(),
+			 	  br(),
+			 	  br(),
+			 	  br()
+			 	))
 
 			 ))
 

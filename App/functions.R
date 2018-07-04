@@ -7,6 +7,7 @@
 
 ##GLOBAL FUNCTIONS
 
+#Depending on the OS different functions are to choose a directory because no one is currently crossplatform.
 chooseDir <-  function() {
   OS <- Sys.info()["sysname"]
     if (OS=="Windows") {
