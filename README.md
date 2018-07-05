@@ -1,7 +1,7 @@
 # ciphold
 Adaptation of the SCAFFoLD cytometry tool.
 The original project can be found on the [SCAFFoLD GitHub page](https://github.com/nolanlab/scaffold).
->Please note that this is the short version of the Readme. Please refer to the USER_MANUAL.html file for more details (download and open it with any Web Browser)
+>Please note that this is the short version of the Readme. Please refer to the USER_MANUAL.html file for more details (download and open it with any Web Browser).
 
 ## Requirements
   * software: R(Version 3.4.3 to 3.5), Rstudio(optional)
