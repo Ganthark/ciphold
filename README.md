@@ -5,7 +5,7 @@ The original project can be found on the [SCAFFoLD GitHub page](https://github.c
 
 ## Requirements
   * software: R(Version 3.4.3 to 3.5), Rstudio(optional)
-  * R packages: Rcpp, cluster, flowCore, ggplot2, igraph, plyr, reshape, shiny, scales, grDevices, parallel, jsonlite, colourpicker, shinythemes, tcltk*(only on linux)*.
+  * R packages: Rcpp, cluster, flowCore, ggplot2, igraph, plyr, reshape, shiny, scales, grDevices, parallel, jsonlite, colourpicker, shinythemes, tcltk *(only on linux)*.
 
 ## Quick installation guide
 
