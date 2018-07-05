@@ -121,6 +121,9 @@ img {
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
 }
@@ -250,7 +253,7 @@ User Manual</div></h1>
 </div>
 
 
-<p><em>Manual Version 1.0 for CIPHOLD Version 0.1</em></p>
+<p><em>Manual Version 1.0 for CIPHOLD Version 0.3</em></p>
 <div id="about-ciphold" class="section level1">
 <h1>About CIPHOLD</h1>
 <p>CIPHOLD was developed in two month during an internship in the CIPHE Bioinformatics Team. It is based on the SCAFFoLD package available on <a href="https://github.com/nolanlab/scaffold">GitHub</a>. The goal of this development was to have a version specifically designed for an intern usage on the CIPHE servers by biologists. With this tool you can analyse cytometry data to obtain SCAFFoLD map, for an insight about them, please read the <a href="https://www.ncbi.nlm.nih.gov/pubmed/26160952">publication</a>. It is developed in R language as a shiny app. Please remember this software is still under development.</p>
@@ -260,19 +263,25 @@ User Manual</div></h1>
 <div id="requirements" class="section level2">
 <h2>Requirements</h2>
 <ul>
-<li>software: R(Version 3.4.3 to 3.5), Rstudio(optional)</li>
-<li>R packages: Rcpp, cluster, flowCore, ggplot2, igraph, plyr, reshape, shiny, scales, grDevices, parallel, jsonlite, colourpicker</li>
+<li>software: R(Version 3.4.3 to 3.4.4), Rstudio(optional)</li>
+<li>R packages: Rcpp, cluster, flowCore, ggplot2, igraph, plyr, reshape, shiny, scales, grDevices, parallel, jsonlite, colourpicker, shinythemes, tcltk (only on linux)</li>
 </ul>
 </div>
 <div id="setting-up-your-environment" class="section level2">
 <h2>Setting up your environment</h2>
 <ol style="list-style-type: decimal">
-<li>Run the following commands in R/RStudio:</li>
+<li>Run the following command in R/RStudio:</li>
 </ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="kw">c</span>(<span class="st">&quot;Rcpp&quot;</span>, <span class="st">&quot;cluster&quot;</span>, <span class="st">&quot;ggplot2&quot;</span>, <span class="st">&quot;igraph&quot;</span>, <span class="st">&quot;reshape&quot;</span>, <span class="st">&quot;shiny&quot;</span>, <span class="st">&quot;jsonlite&quot;</span>, <span class="st">&quot;colourpicker&quot;</span>, <span class="st">&quot;shinythemes&quot;</span>, <span class="st">&quot;tcltk&quot;</span>))
-<span class="kw">source</span>(<span class="st">&quot;http://bioconductor.org/biocLite.R&quot;</span>)
-<span class="kw">biocLite</span>(<span class="st">&quot;flowCore&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="kw">c</span>(<span class="st">&quot;Rcpp&quot;</span>, <span class="st">&quot;cluster&quot;</span>, <span class="st">&quot;ggplot2&quot;</span>, <span class="st">&quot;igraph&quot;</span>, <span class="st">&quot;reshape&quot;</span>, <span class="st">&quot;shiny&quot;</span>, <span class="st">&quot;jsonlite&quot;</span>, <span class="st">&quot;colourpicker&quot;</span>, <span class="st">&quot;shinythemes&quot;</span>, <span class="st">&quot;tcltk&quot;</span>))</code></pre></div>
+<blockquote>
+<p>You may be asked to reload your environment, if so, accept.</p>
+</blockquote>
 <ol start="2" style="list-style-type: decimal">
+<li>Run the next commands:</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">source</span>(<span class="st">&quot;http://bioconductor.org/biocLite.R&quot;</span>)
+<span class="kw">biocLite</span>(<span class="st">&quot;flowCore&quot;</span>)</code></pre></div>
+<ol start="3" style="list-style-type: decimal">
 <li>Download and extract the App in the desired folder from <a href="https://github.com/cipheLab/">GitHub</a>.</li>
 </ol>
 </div>
@@ -367,14 +376,21 @@ You can interact with the graph using the mouse as follows (node selections are 
 </div>
 <div id="map-dataset" class="section level2">
 <h2>Map dataset</h2>
-<p><em>Please note that this option is not fully functionnal.</em><br />
-The purpose of this tab is to map clustered data onto an existing reference map, using the already fixed set of landmarks. Select your reference .scaffold file containing the maps, and valid pairs of files from a new set of FCS files you already clustered. Select your reference file and markers as usual. You must also select markers from your SCAFFoLD file and pair them with the reference markers using drag and drop in the boxes below. You can set your options and run the analysis to obtain a new .scaffold file with your old maps in addition to the new ones as if you analysed them all together in the first place.</p>
+<p>The purpose of this tab is to map clustered data onto an existing reference map, using the already fixed set of landmarks. Select your reference .scaffold file containing the maps, and valid pairs of files from a new set of FCS files you already clustered. Select your reference file and markers as usual. You must also select markers from your SCAFFoLD file and pair them with the reference markers using drag and drop in the boxes below. You can set your options and run the analysis to obtain a new .scaffold file with your old maps in addition to the new ones as if you analysed them all together in the first place. The name of the new generated file will depend on the reference file selected from the .txt/.RData side (right). &gt;The “Add All” button from the SCAFFoLD file part (left) will automatically detect and add matching markers from the file couples if you already loaded one. &gt;You have access to two mapping methods. Concatenate will add the new generated maps from your .txt/.RData after the original ones. From scratch is the original mode from SCAFFoLD, in this case, new maps are generated from your .txt.RData files, using only landmarks from the .scaffold file.</p>
 </div>
 </div>
 <div id="troubleshooting" class="section level1">
 <h1>Troubleshooting</h1>
 <div id="known-issues" class="section level2">
 <h2>Known Issues</h2>
+<!-- Issue  | Solution  -->
+<!-- ----------------------- | -----------------------  -->
+<!-- Map dataset tab doesn't work as expected    | This function is actually under active development. Wait for the next update         -->
+<!-- I charged only one file where pairs where needed and the app crashed        | We are currently working to solve this, the file will not load as it is intended, but the application should not crash -->
+<p>Currently no known issues. Feel free to contact us in case you found some bugs.</p>
+</div>
+<div id="q-a" class="section level2">
+<h2>Q &amp; A</h2>
 <table style="width:67%;">
 <colgroup>
 <col width="33%"></col>
@@ -382,25 +398,18 @@ The purpose of this tab is to map clustered data onto an existing reference map,
 </colgroup>
 <thead>
 <tr class="header">
-<th>Issue</th>
-<th>Solution</th>
+<th>Question</th>
+<th>Answers</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Map dataset tab doesn’t work as expected</td>
-<td>This function is actually under active development. Wait for the next update</td>
-</tr>
-<tr class="even">
-<td>I charged only one file where pairs where needed and the app crashed</td>
-<td>We are currently working to solve this, the file will not load as it is intended, but the application should not crash</td>
+<td>Why Ciphold is not compatible with R versions later than 3.4.4?</td>
+<td>Most of the key packages used come from Bioconductor and are not currently available for R 3.5.</td>
 </tr>
 </tbody>
 </table>
-</div>
-<div id="q-a" class="section level2">
-<h2>Q &amp; A</h2>
-<p>No questions where asked for now, but feel free to contact us if you have some. If you have a question about the usage of this sofware, we invite you to read the readme of the original SCAFFoLD code project on <a href="https://github.com/nolanlab/scaffold">GitHub</a>.</p>
+<p>If you have a question about the usage of this sofware, we invite you to read the readme of the original SCAFFoLD code project on <a href="https://github.com/nolanlab/scaffold">GitHub</a>.</p>
 </div>
 </div>
 <div id="contact" class="section level1">
