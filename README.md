@@ -3,11 +3,11 @@ Adaptation of the SCAFFoLD cytometry tool.
 The original project can be found on the [SCAFFoLD GitHub page](https://github.com/nolanlab/scaffold).
 >Please note that this is the short version of the Readme. Please refer to the USER_MANUAL.html file for more details (download and open it with any Web Browser)
 
-##Requirements
+## Requirements
   * software: R(Version 3.4.3 to 3.5), Rstudio(optional)
   * R packages: Rcpp, cluster, flowCore, ggplot2, igraph, plyr, reshape, shiny, scales, grDevices, parallel, jsonlite, colourpicker, shinythemes, tcltk (only on linux)
 
-##Quick installation guide
+## Quick installation guide
 
   1. Run the following command in R/RStudio:
 ```
@@ -23,7 +23,7 @@ biocLite("flowCore")
   
   3. Download and extract the App in the desired folder from [GitHub](https://github.com/cipheLab/).
   
-##Launching the shiny application
+## Launching the shiny application
 
   1. Double click on the ciphold.Rproj file to open it. It will run a new R session with the working directory set to launch the shiny application.
   2. Run the following commands in R/RStudio:
