@@ -121,6 +121,9 @@ img {
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
 }
@@ -250,7 +253,7 @@ Maintenance Manual</div></h1>
 </div>
 
 
-<p><em>Manual Version 1.0 for CIPHOLD Version 0.1</em></p>
+<p><em>Manual Version 1.0 for CIPHOLD Version 0.3</em></p>
 <div id="we-recommend-you-to-read-the-user-manual-before-this-manual-to-have-a-better-insight-on-this-application." class="section level3">
 <h3><strong>We recommend you to read the user manual before this manual, to have a better insight on this application.</strong></h3>
 </div>
@@ -264,18 +267,24 @@ Maintenance Manual</div></h1>
 <h2>Requirements</h2>
 <ul>
 <li>software: R(Version 3.4.3 to 3.5), Rstudio(optional)</li>
-<li>R packages: Rcpp, cluster, flowCore, ggplot2, igraph, plyr, reshape, shiny, scales, grDevices, parallel, jsonlite, colourpicker</li>
+<li>R packages: Rcpp, cluster, flowCore, ggplot2, igraph, plyr, reshape, shiny, scales, grDevices, parallel, jsonlite, colourpicker, shinythemes, tcltk (only on linux)</li>
 </ul>
 </div>
 <div id="setting-up-your-environment" class="section level2">
 <h2>Setting up your environment</h2>
 <ol style="list-style-type: decimal">
-<li>Run the following commands in R/RStudio:</li>
+<li>Run the following command in R/RStudio:</li>
 </ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="kw">c</span>(<span class="st">&quot;Rcpp&quot;</span>, <span class="st">&quot;cluster&quot;</span>, <span class="st">&quot;ggplot2&quot;</span>, <span class="st">&quot;igraph&quot;</span>, <span class="st">&quot;reshape&quot;</span>, <span class="st">&quot;shiny&quot;</span>, <span class="st">&quot;jsonlite&quot;</span>, <span class="st">&quot;colourpicker&quot;</span>))
-<span class="kw">source</span>(<span class="st">&quot;http://bioconductor.org/biocLite.R&quot;</span>)
-<span class="kw">biocLite</span>(<span class="st">&quot;flowCore&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="kw">c</span>(<span class="st">&quot;Rcpp&quot;</span>, <span class="st">&quot;cluster&quot;</span>, <span class="st">&quot;ggplot2&quot;</span>, <span class="st">&quot;igraph&quot;</span>, <span class="st">&quot;reshape&quot;</span>, <span class="st">&quot;shiny&quot;</span>, <span class="st">&quot;jsonlite&quot;</span>, <span class="st">&quot;colourpicker&quot;</span>, <span class="st">&quot;shinythemes&quot;</span>, <span class="st">&quot;tcltk&quot;</span>))</code></pre></div>
+<blockquote>
+<p>You may be asked to reload your environment, if so, accept.</p>
+</blockquote>
 <ol start="2" style="list-style-type: decimal">
+<li>Run the next commands:</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">source</span>(<span class="st">&quot;http://bioconductor.org/biocLite.R&quot;</span>)
+<span class="kw">biocLite</span>(<span class="st">&quot;flowCore&quot;</span>)</code></pre></div>
+<ol start="3" style="list-style-type: decimal">
 <li>Download and extract the App in the desired folder from <a href="https://github.com/cipheLab/">GitHub</a>.</li>
 </ol>
 </div>
@@ -312,7 +321,7 @@ Maintenance Manual</div></h1>
 </div>
 <div id="project-issues" class="section level1">
 <h1>Project issues</h1>
-<p>Except for the problems discussed in the User Manual, we actually have a hard time packaging CIPHOLD. In fact, the packaging works but a problem with the C++ files produces a stack overflow when running the analysis. We will try again to package it for the next version, using the new 3.5 R version.</p>
+<p>Except for the problems discussed in the User Manual, we actually have a hard time packaging CIPHOLD. In fact, the packaging works but a problem with the C++ files produces a stack overflow when running the analysis. We will try again to package it for the next versions, using the new 3.5 R version.</p>
 </div>
 <div id="contact" class="section level1">
 <h1>Contact</h1>
